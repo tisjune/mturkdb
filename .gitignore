@@ -1,3 +1,7 @@
-*.txt
+log.txt
 *.db
 *.csv
+flask
+*.pyc
+*.dat
+.suexecd
