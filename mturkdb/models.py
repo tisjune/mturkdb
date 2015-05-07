@@ -11,8 +11,8 @@ class User(db.Model):
 	pwdhash = db.Column(db.String(54), nullable=False)
 	isadmin = db.Column(db.Boolean(), default=False)
 	descr = db.Column(db.String(500))
-	aws_key = db.Column(db.String(100))
-	aws_secret_key = db.Column(db.String(100)) # todo: how long are these things actually 
+	awskey = db.Column(db.String(100))
+	awssecretkey = db.Column(db.String(100)) # todo: how long are these things actually 
 
 	def __init__(self, **kwargs):
 		super(User, self).__init__(**kwargs)
@@ -75,10 +75,10 @@ class Attr(db.Model):
 class WorkerAttr(db.Model):
 	__tablename__ = 'WorkerAttrs'
 
-	workerid = db.Column(db.String(100), primary_key=True, 
-		db.ForeignKey('worker.workerid'))
-	attrid = db.Column(db.Integer(), primary_key=True,
-		db.ForeignKey('attr.attrid'))
+	workerid = db.Column(db.String(100), db.ForeignKey('worker.workerid'), 
+					primary_key=True)
+	attrid = db.Column(db.Integer(), db.ForeignKey('attr.attrid'), 
+					primary_key=True)
 	value = db.Column(db.Integer())
 	granted = db.Column(db.Boolean())
 

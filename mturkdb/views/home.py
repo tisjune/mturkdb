@@ -4,4 +4,4 @@ from mturkdb import app
 @app.route('/')
 @app.route('/index')
 def index():
-	return 'Hello world!'
+	return render_template('index.html')
