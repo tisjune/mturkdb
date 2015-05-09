@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block body %}
+	<h1>Users</h1>
+	<hr/>
+	<h3>Add user</h3>
+	
+	<form action="{{ url_for('add_users') }}" method=post>
+		{{ add_user_form.hidden_tag() }}
+
+		{{ add_user_form.name.label }}
+		{{ add_user_form.name }}
+		{% for message in add_user_form.name.errors %}
+			<div class="flash">{{ message }}</div>
+		{% endfor %}
+		<br/>
+		{{ add_user_form.email.label }}
+		{{ add_user_form.email }}
+		{% for message in add_user_form.email.errors %}
+		<div class="flash">{{ message }}</div>
+		{% endfor %}
+		<br/>
+		{{ add_user_form.password.label }}
+		{{ add_user_form.password }}
+		{% for message in add_user_form.password.errors %}
+			<div class="flash">{{ message }}</div>
+		{% endfor %}
+		<br/>
+		{{ add_user_form.descr.label }}
+		{{ add_user_form.descr }}
+		<br/>
+		{{ add_user_form.isadmin.label }}
+		{{ add_user_form.isadmin }}
+		<br/>
+		{{ add_user_form.submit }}
+
+	</form>
+
+	<hr/>
+	<h3>Registered Users:</h3>
+	{% for user in userlist %}
+		<div><p>{{ user.name }}, {{user.id}}, {{user.email}}, {{user.descr}}, {{user.isadmin}}</p></div>
+	{% endfor %}
+
+{% endblock %}

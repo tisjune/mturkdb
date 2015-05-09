@@ -1,0 +1,21 @@
+<!doctype html>
+<title>mturkdb</title>
+<h1>mturkdb</h1>
+<hr/>
+{% block body %}{% endblock %}
+<hr/>
+{% if current_user.is_authenticated() %}
+	<p>Hello, {{ current_user.name }}!</p>
+{% else %}	
+	<p>Hello, guest!</p>
+{% endif %}
+<ul>
+{% if current_user.is_authenticated() %}
+<li><a href='/logout'>Log out</a></li>
+{% else %}
+<li><a href='/login'>Log in</a></li>
+{% endif %}
+<li><a href='/about'>About</a></li>
+<li><a href='/contact'>Contact</a></li>
+<li><a href='/help'>Help</a></li>
+</ul>

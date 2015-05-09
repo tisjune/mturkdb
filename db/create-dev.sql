@@ -30,7 +30,7 @@ CREATE TABLE WorkerAttrs (
 
 CREATE TABLE Attrs (
 	attrid INTEGER PRIMARY KEY,
-	amtid TEXT,
+	amtid TEXT UNIQUE,
 	publicname TEXT,
 	privatename TEXT,
 	publicdescr TEXT,

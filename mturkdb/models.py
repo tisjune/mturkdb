@@ -16,7 +16,9 @@ class User(db.Model):
 
 	def __init__(self, **kwargs):
 		super(User, self).__init__(**kwargs)
-		self.set_password(kwargs['password'])
+		self.set_password(kwargs['pwdhash'])
+		self.email = kwargs['email'].lower()
+		self.name = kwargs['name'].title()
 
 	def set_password(self, password):
 		self.pwdhash = generate_password_hash(password)
@@ -54,7 +56,7 @@ class Attr(db.Model):
 	__tablename__ = 'Attrs'
 
 	attrid = db.Column(db.Integer(), primary_key=True)
-	amtid = db.Column(db.String(100))
+	amtid = db.Column(db.String(100), unique=True)
 	publicname = db.Column(db.String(100))
 	privatename = db.Column(db.String(100))
 	publicdescr = db.Column(db.String(500))

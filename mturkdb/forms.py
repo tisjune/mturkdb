@@ -1,5 +1,6 @@
 from flask.ext.wtf import Form 
-from wtforms import TextField, BooleanField, SubmitField
+from models import User
+from wtforms import TextField, BooleanField, PasswordField, SubmitField
 from wtforms.validators import Required, Email
 
 class LoginForm(Form):
@@ -17,7 +18,6 @@ class LoginForm(Form):
 		user = User.query.filter_by(email = self.email.data.lower()).first()
 		if user and user.check_password(self.password.data):
 			return True
-
 		else:
 			self.email.errors.append("Invalid email or password")
 			return False
@@ -28,8 +28,9 @@ class AddUserForm(Form):
 		Email('Please enter a valid email address.')])
 	name = TextField('Name')
 	password = PasswordField('Initial Password', 
-		[Required('Please enter your password.')])
+		[Required('Please enter a password.')])
 	descr = TextField('Description')
+	isadmin = BooleanField('Grant admin privileges', default=False)
 	submit = SubmitField('Add User')
 
 	def validate(self):
