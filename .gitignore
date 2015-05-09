@@ -6,3 +6,5 @@ flask
 *.dat
 .suexecd
 test
+files
+.DS_STORE

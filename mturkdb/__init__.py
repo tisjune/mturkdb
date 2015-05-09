@@ -10,5 +10,5 @@ lm.init_app(app)
 
 
 
-from mturkdb.views import accounts, admin, home, operations
+from mturkdb.views import accounts, admin, attributes, home, operations
 from mturkdb import models, utils

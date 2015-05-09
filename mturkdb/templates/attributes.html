@@ -1,4 +1,55 @@
 {% extends "base.html" %}
 {% block body %}
 
+<h3>Register attribute</h3>
+<form action="{{ url_for('add_attribute') }}" method=post>
+	{{ add_attr_form.hidden_tag() }}
+
+	{{ add_attr_form.publicname.label }}
+	{{ add_attr_form.publicname }}
+	<br/>
+	{{ add_attr_form.publicdescr.label }}
+	{{ add_attr_form.publicdescr }}
+	<br/>
+	{{ add_attr_form.privatename.label }}
+	{{ add_attr_form.privatename }}
+	<br/>
+	{{ add_attr_form.privatedescr.label }}
+	{{ add_attr_form.privatedescr }}
+	<br/>
+	{{ add_attr_form.amtid.label }}
+	{{ add_attr_form.amtid }}
+	{% for message in add_attr_form.amtid.errors %}
+		<div class="flash">{{ message }}</div>
+	{% endfor %}
+	<br/>
+	{{ add_attr_form.submit }}
+	{% for message in add_attr_form.submit.errors %}
+		<div class="flash">{{ message }}</div>
+	{% endfor %}
+</form>
+
+<h3>Bulk register attributes</h3>
+<form action="{{ url_for('bulk_add_attrs') }}" enctype=multipart/form-data method="post">
+		{{ bulk_attr_form.hidden_tag() }}
+
+		{{ bulk_attr_form.bulkfile.label }}
+		{{ bulk_attr_form.bulkfile }}
+
+		{% for message in bulk_attr_form.bulkfile.errors %}
+			<div class="flash">{{ message }}</div>
+		{% endfor %}
+		<br/>
+		{{ bulk_attr_form.submit }}
+		{% for message in bulk_attr_form.submit.errors %}
+			<div class="flash">{{ message }}</div>
+		{% endfor %}
+
+</form>
+
+<hr/>
+<h3>Current attributes:</h3>
+{% for attr in attrlist %}
+	<div><p>{{attr.amtid}}, {{attr.privatename}}, {{attr.privatedescr}}</p></div>
+{% endfor %}
 {% endblock %}

@@ -8,7 +8,7 @@ class User(db.Model):
 	id = db.Column(db.Integer(), primary_key = True)
 	name = db.Column(db.String(100))
 	email = db.Column(db.String(120), unique=True, nullable=False)
-	pwdhash = db.Column(db.String(54), nullable=False)
+	pwdhash = db.Column(db.String(66), nullable=False)
 	isadmin = db.Column(db.Boolean(), default=False)
 	descr = db.Column(db.String(500))
 	awskey = db.Column(db.String(100))
@@ -49,14 +49,17 @@ class Worker(db.Model):
 
 	workerid = db.Column(db.String(100), primary_key=True)
 
+	def __init__(self, **kwargs):
+		super(Attr, self).__init__(**kwargs)
+		self.workerid = kwargs['workerid'].lower()
+
 	def __repr__(self):
 		return '<Worker %r>' % (self.workerid)
 
 class Attr(db.Model):
 	__tablename__ = 'Attrs'
 
-	attrid = db.Column(db.Integer(), primary_key=True)
-	amtid = db.Column(db.String(100), unique=True)
+	amtid = db.Column(db.String(100), primary_key=True)
 	publicname = db.Column(db.String(100))
 	privatename = db.Column(db.String(100))
 	publicdescr = db.Column(db.String(500))
@@ -64,14 +67,15 @@ class Attr(db.Model):
 
 	def __init__(self, **kwargs):
 		super(Attr, self).__init__(**kwargs)
-		if privatename not in kwargs:
+		if kwargs['privatename'] == '':
 			self.privatename = self.publicname
-		if privatedescr not in kwargs:
+		if kwargs['privatedescr'] == '':
 			self.privatedescr = self.publicdescr
+		self.amtid = kwargs['amtid'].lower()
 
 
 	def __repr__(self):
-		return '<Attribute id=%r mturk=%r name=%r descr=%r>' % (self.attrid,
+		return '<Attribute mturk=%r name=%r descr=%r>' % (
 						self.amtid, self.privatename, self.privatedescr)
 
 class WorkerAttr(db.Model):
@@ -79,10 +83,15 @@ class WorkerAttr(db.Model):
 
 	workerid = db.Column(db.String(100), db.ForeignKey('worker.workerid'), 
 					primary_key=True)
-	attrid = db.Column(db.Integer(), db.ForeignKey('attr.attrid'), 
+	amtid = db.Column(db.Integer(), db.ForeignKey('attr.amtid'), 
 					primary_key=True)
 	value = db.Column(db.Integer())
 	granted = db.Column(db.Boolean())
+
+	def __init__(self, **kwargs):
+		super(Attr, self).__init__(**kwargs)
+		self.amtid = kwargs['amtid'].lower()
+		self.workerid = kwargs['workerid'].lower()
 
 	def __repr__(self):
 		return 'Worker: %r; Attribute: %r, Value: %r, Granted: %r' % (self.workerid,

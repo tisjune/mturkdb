@@ -7,7 +7,7 @@
 		<li><a href='bonuses'>Grant bonuses</a></li>
 	</ul>
 	{% if current_user.is_authenticated() %}
-	<p><a href='attributes'>Attributes</a></p>
+	
 	<h1>User</h1>
 	<ul>
 		<li><a href='settings'>Account settings</a></li>
@@ -17,7 +17,8 @@
 	{% if current_user.is_admin() %}
 	<h1>Admin</h1>
 	<ul>
-		<li><a href='manageworkers'>Manage workers</a></li>
+		<li><a href='attributes'>Attributes</a></li>
+		<li><a href='admin/manageworkers'>Manage workers</a></li>
 		<li><a href='admin/manageusers'>Manage users</a></li>
 	</ul>
 	{% endif %}
