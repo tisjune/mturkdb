@@ -74,6 +74,17 @@ class BulkAttributeForm(Form):
 		# WTFORMS YOU SUCK
 		return Form.validate(self)
 
+class BulkWorkerForm(Form):
+	bulkfile = FileField('CSV File',
+		[Required('Please upload a csv file')])
+	grantquals = BooleanField('Grant quals to everyone', default=False)
+	submit = SubmitField('Add Workers')
+
+	def validate(self):
+		# again...wtf, wtforms
+		return Form.validate(self)
+
+
 
 
 

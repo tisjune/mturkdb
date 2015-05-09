@@ -18,15 +18,20 @@ from werkzeug import secure_filename
 		FEEDBACK!!!
 '''
 
-@app.route('/attributes')
-@utils.admin_required
+@app.route('/db/attributes')
 def manage_attributes():
+	if current_user.is_admin():
+		aform = AddAttributeForm()
+		bform = BulkAttributeForm()
+	else:
+		aform = None
+		bform = None
 	return render_template('attributes.html', 
-		add_attr_form=AddAttributeForm(),
-		bulk_attr_form=BulkAttributeForm(),
+		add_attr_form=aform,
+		bulk_attr_form=bform,
 		attrlist = Attr.query.order_by(Attr.privatename))
 
-@app.route('/attributes/addattribute', methods=['GET','POST'])
+@app.route('/db/attributes/addattribute', methods=['GET','POST'])
 @utils.admin_required
 def add_attribute():
 	form = AddAttributeForm()
@@ -42,7 +47,7 @@ def add_attribute():
 		bulk_attr_form=BulkAttributeForm(),
 		attrlist = Attr.query.order_by(Attr.privatename))
 
-@app.route('/attributes/bulkaddattribute', methods=['GET','POST'])
+@app.route('/db/attributes/bulkaddattribute', methods=['GET','POST'])
 @utils.admin_required
 def bulk_add_attrs():
 	form = BulkAttributeForm()

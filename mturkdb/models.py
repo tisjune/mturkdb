@@ -71,7 +71,7 @@ class Attr(db.Model):
 			self.privatename = self.publicname
 		if kwargs['privatedescr'] == '':
 			self.privatedescr = self.publicdescr
-		self.amtid = kwargs['amtid'].lower()
+		self.amtid = kwargs['amtid'].upper()
 
 
 	def __repr__(self):

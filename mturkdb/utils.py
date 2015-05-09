@@ -7,6 +7,7 @@ from functools import wraps
 from random import random #testing testing
 
 # TODO: check buncha errors
+# everything is probably an upsert. actually, who knows.
 
 @lm.user_loader
 def load_user(id):

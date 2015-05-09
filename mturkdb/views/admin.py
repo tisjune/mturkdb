@@ -10,6 +10,7 @@ from mturkdb.models import User
 	TODO:
 		edit users. revoke access etc. play god!!!
 		oh, i guess better database error handling.
+		wait should worker management (or views) really only be an admin thing?
 '''
 
 
@@ -32,6 +33,7 @@ def add_users():
 			form.email.errors.append("Error: user add unsuccessful")
 	return render_template('admin/manageusers.html', add_user_form=form, 
 		userlist=User.query.order_by(User.name))
+
 
 
 
