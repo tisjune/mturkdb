@@ -44,18 +44,6 @@ class User(db.Model):
 	def __repr__(self):
 		return '<User %d; name=%r; email=%r>' % (self.id, self.name, self.email)  
 
-class Worker(db.Model):
-	__tablename__ = 'Workers'
-
-	workerid = db.Column(db.String(100), primary_key=True)
-
-	def __init__(self, **kwargs):
-		super(Attr, self).__init__(**kwargs)
-		self.workerid = kwargs['workerid'].lower()
-
-	def __repr__(self):
-		return '<Worker %r>' % (self.workerid)
-
 class Attr(db.Model):
 	__tablename__ = 'Attrs'
 
@@ -72,6 +60,8 @@ class Attr(db.Model):
 		if kwargs['privatedescr'] == '':
 			self.privatedescr = self.publicdescr
 		self.amtid = kwargs['amtid'].upper()
+		self.publicname = self.publicname.title()
+		self.privatename = self.privatename.title()
 
 
 	def __repr__(self):
@@ -81,27 +71,26 @@ class Attr(db.Model):
 class WorkerAttr(db.Model):
 	__tablename__ = 'WorkerAttrs'
 
-	workerid = db.Column(db.String(100), db.ForeignKey('worker.workerid'), 
+	workerid = db.Column(db.String(100), 
 					primary_key=True)
-	amtid = db.Column(db.Integer(), db.ForeignKey('attr.amtid'), 
+	amtid = db.Column(db.Integer(), 
 					primary_key=True)
 	value = db.Column(db.Integer())
-	granted = db.Column(db.Boolean())
 
 	def __init__(self, **kwargs):
-		super(Attr, self).__init__(**kwargs)
-		self.amtid = kwargs['amtid'].lower()
-		self.workerid = kwargs['workerid'].lower()
+		super(WorkerAttr, self).__init__(**kwargs)
+		self.amtid = kwargs['amtid'].upper()
+		self.workerid = kwargs['workerid'].upper()
 
 	def __repr__(self):
-		return 'Worker: %r; Attribute: %r, Value: %r, Granted: %r' % (self.workerid,
-			self.attrid, self.value, self.granted)
+		return 'Worker: %r; Attribute: %r, Value: %r' % (self.workerid,
+			self.attrid, self.value)
 
 class Action(db.Model):
 	__tablename__ = 'Actions'
 
 	id = db.Column(db.Integer(), primary_key=True)
-	userid = db.Column(db.Integer(), db.ForeignKey('users.id'), nullable=False)
+	userid = db.Column(db.Integer(), db.ForeignKey('Users.id'), nullable=False)
 	descr = db.Column(db.String(500))
 
 

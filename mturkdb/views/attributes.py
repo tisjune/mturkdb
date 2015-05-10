@@ -1,5 +1,5 @@
 from flask import render_template, flash, redirect, session, url_for, request
-from flask.ext.login import current_user, login_required
+from flask.ext.login import login_required
 from mturkdb import app, utils
 from mturkdb.forms import AddAttributeForm, BulkAttributeForm
 from mturkdb.models import Attr 
@@ -19,16 +19,11 @@ from werkzeug import secure_filename
 '''
 
 @app.route('/db/attributes')
+@login_required
 def manage_attributes():
-	if current_user.is_admin():
-		aform = AddAttributeForm()
-		bform = BulkAttributeForm()
-	else:
-		aform = None
-		bform = None
-	return render_template('attributes.html', 
-		add_attr_form=aform,
-		bulk_attr_form=bform,
+	return render_template('db/attributes.html', 
+		add_attr_form=AddAttributeForm(),
+		bulk_attr_form=BulkAttributeForm(),
 		attrlist = Attr.query.order_by(Attr.privatename))
 
 @app.route('/db/attributes/addattribute', methods=['GET','POST'])
@@ -38,12 +33,12 @@ def add_attribute():
 	if form.validate_on_submit():
 		result = utils.add_new_attribute(form.publicname.data,
 			form.privatename.data, form.publicdescr.data,
-			form.privatedescr.data, form.amtid.data)
+			form.privatedescr.data, form.amtid.data, single=True)
 		if result:
 			return redirect(url_for('manage_attributes'))
 		else:
 			form.submit.errors.append('Error: unable to add attribute')
-	return render_template('attributes.html', add_attr_form=form,
+	return render_template('db/attributes.html', add_attr_form=form,
 		bulk_attr_form=BulkAttributeForm(),
 		attrlist = Attr.query.order_by(Attr.privatename))
 
@@ -60,7 +55,7 @@ def bulk_add_attrs():
 				return redirect(url_for('manage_attributes'))
 			else:
 				form.submit.errors.append('Error: failed to read file')
-	return render_template('attributes.html', 
+	return render_template('db/attributes.html', 
 		add_attr_form=AddAttributeForm(),
 		bulk_attr_form=form,
 		attrlist = Attr.query.order_by(Attr.privatename))

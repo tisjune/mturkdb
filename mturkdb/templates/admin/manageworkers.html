@@ -2,7 +2,23 @@
 {% block body %}
 <h1>Workers</h1>
 <hr/>
-<h3>Add workers</h3>
+<h3>Add worker</h3>
+<form action="{{ url_for('add_worker_attrs') }}" enctype=multipart/form-data method=post>
+	{{ add_workerattr_form.hidden_tag() }}
 
+	{{ add_workerattr_form.bulkfile.label }}
+	{{ add_workerattr_form.bulkfile }}
+	{% for message in add_workerattr_form.bulkfile.errors %}
+		<div class="flash">{{ message }}</div>
+	{% endfor %}
+	<br/>
+	{{ add_workerattr_form.grantquals.label }}
+	{{ add_workerattr_form.grantquals }}
+	<br/>
+	{{ add_workerattr_form.submit }}
+	{% for message in add_workerattr_form.submit.errors %}
+		<div class="flash">{{ message }}</div>
+	{% endfor %}
+</form>
 
 {% endblock %}

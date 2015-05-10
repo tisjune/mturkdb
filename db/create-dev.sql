@@ -1,5 +1,4 @@
 DROP TABLE IF EXISTS Users;
-DROP TABLE IF EXISTS Workers;
 DROP TABLE IF EXISTS WorkerAttrs;
 DROP TABLE IF EXISTS Attrs;
 DROP TABLE IF EXISTS Actions;
@@ -15,18 +14,11 @@ CREATE TABLE Users (
 	awssecretkey TEXT
 );
 
-CREATE TABLE Workers (
-	workerid TEXT PRIMARY KEY
-);
-
 CREATE TABLE WorkerAttrs (
 	workerid TEXT,
 	amtid INTEGER,
 	value INT,
-	granted INT,
-	PRIMARY KEY (workerid, amtid),
-	FOREIGN KEY(amtid) REFERENCES Attrs(amtid),
-	FOREIGN KEY(workerid) REFERENCES Workers(workerid)
+	PRIMARY KEY (workerid, amtid)
 );
 
 CREATE TABLE Attrs (
